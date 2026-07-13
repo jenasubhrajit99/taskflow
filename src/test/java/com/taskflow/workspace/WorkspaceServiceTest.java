@@ -74,7 +74,7 @@ class WorkspaceServiceTest {
 
         AddWorkspaceMemberRequest request = mock(AddWorkspaceMemberRequest.class);
         when(request.getEmail()).thenReturn("target@example.com");
-        when(request.getRole()).thenReturn(WorkspaceRole.MEMBER);
+        //when(request.getRole()).thenReturn(WorkspaceRole.MEMBER);
 
         assertThatThrownBy(() -> workspaceService.addMember(workspaceId, request, "admin@example.com"))
                 .isInstanceOf(ConflictException.class);

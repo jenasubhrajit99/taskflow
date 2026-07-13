@@ -2,6 +2,8 @@ package com.taskflow.common.response;
 
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -10,10 +12,9 @@ class ApiResponseTest {
 
     @Test
     void success_withData_setsSuccessTrueAndPopulatesData() {
-        String payload = "hello";
+        List<String> payload = Arrays.asList("hello");
 
-        ApiResponse<String> response = ApiResponse.success(payload);
-
+        ApiResponse<List<String>> response = ApiResponse.success(payload);
         assertThat(response.isSuccess()).isTrue();
         assertThat(response.getData()).isEqualTo(payload);
         assertThat(response.getMessage()).isNull();

@@ -1,5 +1,16 @@
 package com.taskflow.task.service;
 
+import java.time.LocalDateTime;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.UUID;
+
+import org.springframework.data.domain.Pageable;
+import org.springframework.kafka.core.KafkaTemplate;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.taskflow.common.constant.AppConstants;
 import com.taskflow.common.exception.AuthorizationException;
 import com.taskflow.common.exception.ConflictException;
@@ -7,7 +18,6 @@ import com.taskflow.common.exception.ResourceNotFoundException;
 import com.taskflow.common.response.PageResponse;
 import com.taskflow.common.util.SecurityUtils;
 import com.taskflow.project.entity.Project;
-import com.taskflow.project.entity.ProjectMember;
 import com.taskflow.project.repository.ProjectMemberRepository;
 import com.taskflow.project.repository.ProjectRepository;
 import com.taskflow.task.dto.request.CreateLabelRequest;
@@ -25,18 +35,9 @@ import com.taskflow.task.repository.LabelRepository;
 import com.taskflow.task.repository.TaskRepository;
 import com.taskflow.user.entity.User;
 import com.taskflow.user.repository.UserRepository;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Pageable;
-import org.springframework.kafka.core.KafkaTemplate;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-import java.util.UUID;
 
 @Service
 @Slf4j

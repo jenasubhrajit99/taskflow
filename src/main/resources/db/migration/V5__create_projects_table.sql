@@ -1,6 +1,3 @@
-CREATE TYPE project_status AS ENUM ('PLANNING', 'ACTIVE', 'ON_HOLD', 'COMPLETED', 'CANCELLED');
-CREATE TYPE project_role   AS ENUM ('OWNER', 'MANAGER', 'DEVELOPER', 'VIEWER');
-
 CREATE TABLE projects (
     id           UUID           PRIMARY KEY DEFAULT uuid_generate_v4(),
     name         VARCHAR(200)   NOT NULL,
@@ -8,7 +5,7 @@ CREATE TABLE projects (
     project_key  VARCHAR(10)    NOT NULL,
     workspace_id UUID           NOT NULL REFERENCES workspaces(id) ON DELETE CASCADE,
     owner_id     UUID           NOT NULL REFERENCES users(id),
-    status       project_status NOT NULL DEFAULT 'PLANNING',
+    status       VARCHAR(20)	NOT NULL DEFAULT 'PLANNING',
     start_date   DATE,
     due_date     DATE,
     created_at   TIMESTAMP      NOT NULL DEFAULT NOW(),
@@ -22,7 +19,7 @@ CREATE TABLE project_members (
     id         UUID         PRIMARY KEY DEFAULT uuid_generate_v4(),
     project_id UUID         NOT NULL REFERENCES projects(id) ON DELETE CASCADE,
     user_id    UUID         NOT NULL REFERENCES users(id)    ON DELETE CASCADE,
-    role       project_role NOT NULL DEFAULT 'DEVELOPER',
+    role       VARCHAR(20)	NOT NULL DEFAULT 'DEVELOPER',
     created_at TIMESTAMP    NOT NULL DEFAULT NOW(),
     updated_at TIMESTAMP,
     created_by VARCHAR(255),

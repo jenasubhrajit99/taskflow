@@ -14,6 +14,8 @@ import com.taskflow.user.entity.User;
 import com.taskflow.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -56,7 +58,7 @@ public class NotificationService {
         User user = userRepository.findByEmail(email)
                 .orElseThrow(() -> new ResourceNotFoundException("User", "email", email));
 
-        var page = unreadOnly
+        Page<Notification> page = unreadOnly
                 ? notificationRepository.findByRecipientIdAndRead(user.getId(), false, pageable)
                 : notificationRepository.findByRecipientId(user.getId(), pageable);
         return PageResponse.from(page.map(notificationMapper::toResponse));

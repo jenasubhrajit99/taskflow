@@ -1,17 +1,7 @@
-CREATE TYPE notification_type AS ENUM (
-    'TASK_ASSIGNED',
-    'TASK_STATUS_CHANGED',
-    'TASK_COMMENTED',
-    'TASK_DUE_SOON',
-    'PROJECT_MEMBER_ADDED',
-    'WORKSPACE_MEMBER_ADDED',
-    'MENTION'
-);
-
 CREATE TABLE notifications (
     id                  UUID              PRIMARY KEY DEFAULT uuid_generate_v4(),
     recipient_id        UUID              NOT NULL REFERENCES users(id) ON DELETE CASCADE,
-    type                notification_type NOT NULL,
+    type                VARCHAR(20)		  NOT NULL,
     title               VARCHAR(255)      NOT NULL,
     message             TEXT              NOT NULL,
     read                BOOLEAN           NOT NULL DEFAULT FALSE,

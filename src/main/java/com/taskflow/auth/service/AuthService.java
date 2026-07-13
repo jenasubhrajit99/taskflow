@@ -1,6 +1,20 @@
 package com.taskflow.auth.service;
 
-import com.taskflow.auth.dto.request.*;
+import java.time.LocalDateTime;
+import java.util.UUID;
+
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.taskflow.auth.dto.request.LoginRequest;
+import com.taskflow.auth.dto.request.RefreshTokenRequest;
+import com.taskflow.auth.dto.request.RegisterRequest;
+import com.taskflow.auth.dto.request.ResendOtpRequest;
+import com.taskflow.auth.dto.request.VerifyOtpRequest;
 import com.taskflow.auth.dto.response.AuthResponse;
 import com.taskflow.auth.entity.RefreshToken;
 import com.taskflow.auth.repository.RefreshTokenRepository;
@@ -8,27 +22,19 @@ import com.taskflow.common.exception.AuthenticationException;
 import com.taskflow.common.exception.ConflictException;
 import com.taskflow.common.exception.ResourceNotFoundException;
 import com.taskflow.common.exception.ValidationException;
-import com.taskflow.user.dto.response.UserResponse;
 import com.taskflow.user.entity.User;
 import com.taskflow.user.entity.UserRole;
 import com.taskflow.user.entity.UserStatus;
 import com.taskflow.user.mapper.UserMapper;
 import com.taskflow.user.repository.UserRepository;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.time.LocalDateTime;
-import java.util.UUID;
 
 @Service
 @RequiredArgsConstructor
 @Slf4j
-@Transactional(readOnly = true)
+@Transactional(isolation = Isolation.READ_COMMITTED)
 public class AuthService {
 
     private final UserRepository userRepository;
@@ -39,7 +45,7 @@ public class AuthService {
     private final PasswordEncoder passwordEncoder;
     private final JwtProperties jwtProperties;
 
-    @Transactional
+    @Transactional(readOnly = false, propagation = Propagation.REQUIRED)
     public void register(RegisterRequest request) {
         log.debug("Registering new user: {}", request.getEmail());
         if (userRepository.existsByEmail(request.getEmail())) {

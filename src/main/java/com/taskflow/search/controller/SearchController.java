@@ -1,16 +1,21 @@
 package com.taskflow.search.controller;
 
+import org.springframework.data.domain.PageRequest;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+
 import com.taskflow.common.constant.AppConstants;
 import com.taskflow.common.response.ApiResponse;
 import com.taskflow.common.response.PageResponse;
 import com.taskflow.search.dto.response.TaskSearchResponse;
 import com.taskflow.search.service.SearchService;
+
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping(AppConstants.API_V1 + "/search")
@@ -29,7 +34,7 @@ public class SearchController {
             @RequestParam(required = false) String status,
             @RequestParam(defaultValue = "0") int page,
             @RequestParam(defaultValue = "20") int size) {
-        var pageable = PageRequest.of(page, size);
+        PageRequest pageable = PageRequest.of(page, size);
         return ApiResponse.success(searchService.searchTasks(query, projectId, status, pageable));
     }
 }

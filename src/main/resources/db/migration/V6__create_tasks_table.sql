@@ -1,6 +1,3 @@
-CREATE TYPE task_status   AS ENUM ('TODO', 'IN_PROGRESS', 'IN_REVIEW', 'DONE', 'CANCELLED');
-CREATE TYPE task_priority AS ENUM ('LOW', 'MEDIUM', 'HIGH', 'URGENT');
-
 CREATE TABLE labels (
     id         UUID        PRIMARY KEY DEFAULT uuid_generate_v4(),
     name       VARCHAR(50) NOT NULL,
@@ -20,8 +17,8 @@ CREATE TABLE tasks (
     project_id     UUID          NOT NULL REFERENCES projects(id) ON DELETE CASCADE,
     assignee_id    UUID          REFERENCES users(id) ON DELETE SET NULL,
     reporter_id    UUID          NOT NULL REFERENCES users(id),
-    status         task_status   NOT NULL DEFAULT 'TODO',
-    priority       task_priority NOT NULL DEFAULT 'MEDIUM',
+    status         VARCHAR(20)   NOT NULL DEFAULT 'TODO',
+    priority       VARCHAR(20)	 NOT NULL DEFAULT 'MEDIUM',
     due_date       DATE,
     story_points   INTEGER,
     parent_task_id UUID          REFERENCES tasks(id) ON DELETE CASCADE,

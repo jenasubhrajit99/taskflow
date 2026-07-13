@@ -37,8 +37,6 @@ spring:
           time_zone: UTC
         order_inserts: true
         order_updates: true
-        connection:
-          provider_disables_autocommit: true
 
   # ── Flyway ──────────────────────────────────────────────────────────────────
   flyway:
@@ -103,8 +101,6 @@ spring:
     time-zone: UTC
 
   # ── MVC ─────────────────────────────────────────────────────────────────────
-  mvc:
-    throw-exception-if-no-handler-found: true
   web:
     resources:
       add-mappings: false
@@ -151,20 +147,9 @@ springdoc:
 # ── Application Properties ────────────────────────────────────────────────────
 app:
   jwt:
-    secret: ${JWT_SECRET:change-this-secret-in-production-must-be-at-least-256-bits}
+    secret: ${JWT_SECRET:+uXBpRwUFLEI09TC8PlQhkDQ+znZ2vUSww+dbaXOzU8=}
     access-token-expiry-ms: ${JWT_ACCESS_EXPIRY_MS:900000}       # 15 minutes
     refresh-token-expiry-ms: ${JWT_REFRESH_EXPIRY_MS:604800000}  # 7 days
   otp:
     expiry-minutes: ${OTP_EXPIRY_MINUTES:10}
     length: 6
-
-# ── Logging ───────────────────────────────────────────────────────────────────
-logging:
-  level:
-    root: INFO
-    com.taskflow: DEBUG
-    org.springframework.security: INFO
-    org.hibernate.SQL: DEBUG
-    org.hibernate.orm.jdbc.bind: TRACE
-  pattern:
-    console: "%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level [%X{traceId}] %logger{36} - %msg%n"

@@ -60,6 +60,22 @@ spring:
           min-idle: 1
           max-wait: 1000ms
 
+  # ── Mail (SMTP) ─────────────────────────────────────────────────────────────
+  mail:
+    host: ${MAIL_HOST:smtp.gmail.com}
+    port: ${MAIL_PORT:587}
+    username: ${MAIL_USERNAME:your-email@gmail.com}
+    password: ${MAIL_PASSWORD:your-app-password}
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+            required: true
+        debug: false
+    test-connection: false
+
   # ── Elasticsearch ───────────────────────────────────────────────────────────
   elasticsearch:
     uris: ${ELASTICSEARCH_URI:http://localhost:9200}
@@ -101,25 +117,11 @@ spring:
     time-zone: UTC
 
   # ── MVC ─────────────────────────────────────────────────────────────────────
+  mvc:
+    throw-exception-if-no-handler-found: true
   web:
     resources:
       add-mappings: false
-  
-  # ── Mail (SMTP) ─────────────────────────────────────────────────────────────
-  mail:
-    host: ${MAIL_HOST:smtp.gmail.com}
-    port: ${MAIL_POST:587}
-    username: ${MAIL_USERNAME:thesubhrajit@gmail.com}
-    password: ${MAIL_PASSWORD:subhrajit...}
-    properties:
-      mail:
-				smtp:
-					auth: true
-					starttls:
-						enable: true
-						required: true
-				debug: false
-		test-connection: false
 
 # ── Server ────────────────────────────────────────────────────────────────────
 server:

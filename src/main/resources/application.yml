@@ -104,6 +104,22 @@ spring:
   web:
     resources:
       add-mappings: false
+  
+  # ── Mail (SMTP) ─────────────────────────────────────────────────────────────
+  mail:
+    host: ${MAIL_HOST:smtp.gmail.com}
+    port: ${MAIL_POST:587}
+    username: ${MAIL_USERNAME:thesubhrajit@gmail.com}
+    password: ${MAIL_PASSWORD:subhrajit...}
+    properties:
+      mail:
+				smtp:
+					auth: true
+					starttls:
+						enable: true
+						required: true
+				debug: false
+		test-connection: false
 
 # ── Server ────────────────────────────────────────────────────────────────────
 server:
